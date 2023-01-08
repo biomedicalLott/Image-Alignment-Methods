@@ -40,7 +40,7 @@ I began by removing the edges of the image clump, noting that they had thick whi
 edges. The filter would remove columns/rows until the intensity values of the image fell within a
 range of 80 to 200. Then, the image was divided into thirds first by taking the image size over 3
 and then searching for the blackest spot in that range
-<p><img src ="https://i.imgur.com/WIDxUGP.png" alt = "Edge between images"/></p>
+<p><img src ="https://i.imgur.com/WIDxUGP.png" alt = "Edge between images" title = "Edge between images"/></p>
 
 As you can see, this should make it the edge of the image. To speed up
 the processing I used a single column/row near the center of the
@@ -48,7 +48,7 @@ image and checked for the values. Then, I cropped the images to fit
 together using the smallest values for rows and columns. The result was this
 unaligned image.
 
-<p><img src = "https://i.imgur.com/iCNrzht.png" alt = "No Alignment"/></p>
+<p><img src = "https://i.imgur.com/iCNrzht.png" alt ="No Alignment" title = "No Alignment"/></p>
 <h2>Alignment 1 - SSD</h2>
 To begin I normalized the image values to be between 0 and 1 and work as doubles so that the range
 wasn’t restricted by uint8. Next, I ran each channel across a range of +/- 15
@@ -56,7 +56,7 @@ for shifting in the x and y axis. On each shift, the channel would be cropped an
 the SSD function alongside a corresponding region in the blue channel. The returning values
 were stored and afterwards the minimum SSD value was found and the shit of the minimum
 returned to implement the shift for both red and green channels.
-<p><img src = "https://i.imgur.com/6mYDnMh.png" alt = "SSD ALignment, rshift of 4 by -10 gshift of -3 by 1"/></p>
+<p><img src = "https://i.imgur.com/6mYDnMh.png" alt = "SSD ALignment" title ="SSD ALignment rshift of 4 by -10 gshift of -3 by 1"/></p>
 <h2>Alignment 2 - NCC</h2>
 To begin I once again normalized the image values to be between 0 and 1 followed by
 running them through the same +/- 15 range as the SSD alignment. During the process i placed
@@ -64,7 +64,7 @@ similar windows into NCC where I applied a filter of otherChannel(otherChannel<=
 blueChannel(blueChannel<= 0.5) = 0; Followed by taking the dot product divided norm
 of the matrix. The returning values were again stored and the maximum NCC value was used
 to find and implement the shift for both red and green channels.
-<p><img src = "https://i.imgur.com/06mLp0g.png" alt = "NCC ALignment, rshift of 6 by -10 gshift of -2 by 1"/></p>
+<p><img src = "https://i.imgur.com/06mLp0g.png" alt="NCC ALignment" title = "NCC ALignment, rshift of 6 by -10 gshift of -2 by 1"/></p>
 <h2>Alignment 3 Part 1</h2> 
 <h3>Harris</h3> 
 The harris corner alignment was the pickiest of the bunch. Follow normalization, I
@@ -76,7 +76,7 @@ as an excellent edge detector. I iterated the filter across the whole image and 
 applied a binary mask. The binary mask works to emphasize edges and eliminate everything in 
 between as it makes everything either a 0 or a 1 using a threshold of my choice that is 
 programmatically decreased if the results are far too few points to actually use.
-<p><img src = "https://i.imgur.com/bfd83pD.png" alt = "Thresholding the Edge Detection"/></p>
+<p><img src = "https://i.imgur.com/bfd83pD.png" alt="Thresholding the Edge" title = "Thresholding the Edge Detection"/></p>
 
 Following this, I placed channel edges through a harris response in which they were again
 box blurred. From this, I was able to determine the corners from a matrix created from the
@@ -84,7 +84,7 @@ multiplied sobelized matrices. I went on to choose the best points by summing wi
 points to find the largest values and took the centers of those windows as my centers. 
 I eliminated any corners too close to the edge and eliminated any corners with bad scores. 
 The arrays of maximums were sorted and the best 200 were retained.
-<p><img src = "https://i.imgur.com/1t4oT4s.png" alt = "Showing the detected best corners"/></p>
+<p><img src = "https://i.imgur.com/1t4oT4s.png" alt="best corners"  title = "Showing the detected best corners"/></p>
 <h2>Alignment 3 Part 2</h2> 
 <h3>Ransac</h3>
 The points gathered from Harris were placed into RANSAC. Ransac chose a random corner
@@ -95,6 +95,6 @@ the magnitude of the distance between them. The values at the end of the loop we
 ensure they were below a threshold of 1 (meaning they were on top of one another).
 This ransac was made to run 1000 times and in the end the shift with the maximum number
 of inliers was output to align the image.
-<p><img src = "https://i.imgur.com/njBIMiC.png" alt = "Harris/RANSAC alignment, rshift of 5 by -11 gshift of -3 by 1"/></p>
+<p><img src = "https://i.imgur.com/njBIMiC.png" alt="Harris/RANSAC" title = "Harris/RANSAC alignment, rshift of 5 by -11 gshift of -3 by 1"/></p>
 
 
