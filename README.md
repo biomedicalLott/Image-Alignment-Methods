@@ -1,7 +1,6 @@
 # Image-Alignment-Methods
-My exploration of image alignment methods for Robotics Algorithms
-In this assignment, I implemented some basic image processing algorithms to detect features to
-frame alignment using Matlab. 
+My exploration of image alignment methods for Robotics Algorithms I implemented some basic image
+processing algorithms to detect features for frame alignment using Matlab. 
 
 Sergei Mikhailovich Prokudin-Gorskii (1863-1944) was a photographer who, between the years 1909-1915,
 traveled the Russian empire and took thousands of photos of everything he saw. He used an early color
