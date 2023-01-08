@@ -85,7 +85,6 @@ points to find the largest values and took the centers of those windows as my ce
 I eliminated any corners too close to the edge and eliminated any corners with bad scores. 
 The arrays of maximums were sorted and the best 200 were retained.
 <p><img src = "https://i.imgur.com/1t4oT4s.png" alt = "Showing the detected best corners"/></p>
-https://i.imgur.com/1t4oT4s.png
 <h2>Alignment 3 Part 2</h2> 
 <h3>Ransac</h3>
 The points gathered from Harris were placed into RANSAC. Ransac chose a random corner
